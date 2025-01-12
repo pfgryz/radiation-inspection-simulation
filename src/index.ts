@@ -1,10 +1,15 @@
-import { Rover } from "./rover";
-
-console.log('Happy developing ✨')
-let rover = new Rover("Test");
+import {Simulation} from "./simulation";
+import {Graphics} from "./core/graphics";
+import {Parameters} from "./parameters";
 
 function start() {
-    alert("Started")
+    const canvas = document.getElementById("simulation") as HTMLCanvasElement;
+    const parametersContainer = document.getElementById("parameters") as HTMLElement;
+
+    const graphics = new Graphics(canvas);
+    const parameters = new Parameters(parametersContainer);
+    const simulation = new Simulation(graphics, parameters, 0.01);
+    simulation.Start();
 }
 
 (() => {

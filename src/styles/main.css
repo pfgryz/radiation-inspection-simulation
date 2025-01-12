@@ -55,19 +55,40 @@ body {
     border-bottom: 1px solid #444;
 }
 
+.parameter {
+    display: flex;
+    align-items: center;
+}
+.parameter label {
+    margin-right: 10px;
+}
+.parameter .parameter-value {
+    margin-left: 4px;
+}
+
 /* Canvas */
+.canvas-container {
+    height: 100%;
+}
+
+#simulation {
+    width: 100%;
+    height: calc(100% - 2em);
+    background: white;
+}
 
 /* Charts */
 
+/* Boxes */
 .box {
     padding: 20px;
-    /*background: rgba(255, 255, 255, 0.1);*/
 }
 
 .box-title {
-    display: inline-block;
+    height: 1em;
+    margin-bottom: 1em;
     color: var(--gold-medium);
     font-weight: bold;
     text-transform: uppercase;
-    border-bottom: 1px solid var(--gold-medium);
+    text-decoration: underline;
 }

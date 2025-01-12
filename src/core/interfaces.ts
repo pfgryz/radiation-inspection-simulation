@@ -2,7 +2,7 @@ import {Vector2} from "./vector2";
 import {Graphics} from "./graphics";
 
 export interface IUpdate {
-    Update(): void;
+    Update(time_delta: number): void;
 }
 
 export interface IDrawable {
