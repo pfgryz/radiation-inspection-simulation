@@ -9,9 +9,9 @@ export class Rover implements IUpdate, IDrawable, IPosition {
     private _velocity: Ref<number>;
     private _shape: Shape = new Shape([
         new Vector2(-1, 0.5),
-        new Vector2(0.7, 0.5),
+        new Vector2(0.5, 0.5),
         new Vector2(1, 0),
-        new Vector2(0.7, -0.5),
+        new Vector2(0.5, -0.5),
         new Vector2(-1, -0.5),
     ]).Scale(10);
 
@@ -25,7 +25,7 @@ export class Rover implements IUpdate, IDrawable, IPosition {
     }
 
     public Update(time_delta: number): void {
-        this._position.value = this._position.value.Add(new Vector2(1, 0).Scale(this._velocity.value).Scale(time_delta));
+        this._position.value = this._position.value.Add(new Vector2(1, 0).Scale(this._velocity.value * 20).Scale(time_delta));
     }
 
     public Draw(graphics: Graphics): void {

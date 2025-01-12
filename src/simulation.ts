@@ -2,47 +2,56 @@ import {Graphics} from "./core/graphics";
 import {Parameters} from "./parameters";
 import {Vector2} from "./core/vector2";
 import {Rover} from "./rover";
+import {Tunnel} from "./tunnel";
 
 export class Simulation {
-    private readonly resolution: number;
-    private interval: number | null;
+    private readonly _resolution: number;
+    private _interval: number | null;
 
-    private readonly graphics: Graphics;
-    private parameters: Parameters;
-    private rover: Rover;
+    private readonly _graphics: Graphics;
+    private _parameters: Parameters;
+
+    private _rover: Rover;
+    private _tunnel: Tunnel;
 
     constructor(graphics: Graphics, parameters: Parameters, resolution: number) {
-        this.resolution = resolution;
-        this.interval = null;
+        this._resolution = resolution;
+        this._interval = null;
 
-        this.graphics = graphics;
-        this.parameters = parameters;
+        this._graphics = graphics;
+        this._parameters = parameters;
 
-        this.rover = new Rover(new Vector2(200, 100), parameters.Velocity);
+        this._tunnel = new Tunnel();
+        this._rover = new Rover(this._tunnel.Road[0], parameters.Velocity);
+
+        this._graphics.Resize();
+        this._graphics.Scale(1000, 200);
+        this._graphics.Center()
     }
 
     public Start(): void {
-        if (this.interval == null) {
-            this.interval = setInterval(() => {
+        if (this._interval == null) {
+            this._interval = setInterval(() => {
                 this.Update();
                 this.Draw();
-            }, this.resolution);
+            }, this._resolution);
         }
     }
 
     public Stop(): void {
-        if (this.interval != null) {
-            clearInterval(this.interval);
-            this.interval = null;
+        if (this._interval != null) {
+            clearInterval(this._interval);
+            this._interval = null;
         }
     }
 
     public Update(): void {
-        this.rover.Update(this.resolution);
+        this._rover.Update(this._resolution);
     }
 
     public Draw(): void {
-        this.graphics.Clear();
-        this.rover.Draw(this.graphics);
+        this._graphics.Clear();
+        this._tunnel.Draw(this._graphics);
+        this._rover.Draw(this._graphics);
     }
 }

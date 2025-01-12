@@ -9,8 +9,6 @@ export class Graphics {
     constructor(canvas: HTMLCanvasElement) {
         this._canvas = canvas;
         this._context = canvas.getContext("2d")!;
-
-        this.Resize();
     }
 
     public Resize(): void {
@@ -18,9 +16,24 @@ export class Graphics {
         this._canvas.height = this._canvas.clientHeight;
     }
 
+    public Scale(width: number, height: number): void {
+        const w = this._canvas.width / width;
+        const h = this._canvas.height / height;
+        const scale = Math.min(w, h) * 0.9;
+
+        this._context.translate(this._canvas.width / 2, this._canvas.height / 2);
+        this._context.scale(scale, scale);
+        this._context.translate(-this._canvas.width / 2, -this._canvas.height / 2);
+    }
+
+    public Center(): void {
+        this._context.translate(this._canvas.width / 2, this._canvas.height / 2);
+    }
+
     // region Clear
     public Clear(): void {
-        this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
+        console.log(this._canvas.width);
+        this._context.clearRect(-this._canvas.width / 2, -this._canvas.height / 2, this._canvas.width, this._canvas.height);
     }
 
     public ClearRectangle(x: number, y: number, width: number, height: number): void {
@@ -72,8 +85,11 @@ export class Graphics {
         this._context.fill();
     }
 
-    public Stroke(style: string = Color.Black) {
+    public Stroke(style: string = Color.Black, width: number = 1, dashStyle: number[] = []) {
         this._context.strokeStyle = style;
+        this._context.lineWidth = width;
+        this._context.setLineDash(dashStyle);
+
         this._context.stroke();
     }
 
