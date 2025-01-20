@@ -3,6 +3,9 @@ import {Parameters} from "./parameters";
 import {Rover} from "./rover";
 import {Tunnel} from "./tunnel";
 import {Vector2} from "./core/vector2";
+import {TicksCounter} from "./ticksCounter";
+
+const TimeoutMinimalDuration: number = 4;
 
 export class Simulation {
     private readonly _graphics: Graphics;
@@ -14,8 +17,10 @@ export class Simulation {
 
     private _alive: boolean;
     private _interval: number | null;
-    private _lastDraw: number;
-    private _ticks: number;
+    private _lastTick: number;
+    private _nextTicks: number;
+    private _lastFrame: number;
+    private _ticksCounter: TicksCounter;
 
     constructor(graphics: Graphics, parameters: Parameters, resolution: number) {
         this._graphics = graphics;
@@ -27,8 +32,11 @@ export class Simulation {
 
         this._interval = null;
         this._alive = false;
-        this._lastDraw = 0;
-        this._ticks = 0;
+        this._lastTick = Date.now();
+        this._nextTicks = 0;
+        this._lastFrame = 0;
+
+        this._ticksCounter = new TicksCounter();
 
         this._graphics.Resize();
         this._graphics.Scale(1000, 200);
@@ -37,37 +45,55 @@ export class Simulation {
 
     public Start(): void {
         this._alive = true;
-        this.Update();
+        this._lastTick = performance.now();
+        this.Loop();
+        this._ticksCounter.Start();
     }
 
     public Stop(): void {
         this._alive = false;
+        this._ticksCounter.Stop();
+    }
+
+    public Loop(): void {
+        const time = performance.now();
+        const tickDuration = time - this._lastTick;
+
+        this._nextTicks += (this._resolution * this._parameters.Speed.value * tickDuration) / 1000;
+
+        while (this._nextTicks > 0) {
+            this.Update();
+            this._ticksCounter.Ticks++;
+            this._nextTicks--;
+        }
+
+        this._lastTick = time;
+
+        if (this._alive) {
+            setTimeout(
+                () => {
+                    this.Loop()
+                },
+                TimeoutMinimalDuration
+            );
+        }
     }
 
     public Update(): void {
-        setTimeout(() => {
-            if (this._alive) {
-                this.Update();
-                this.Draw();
-            }
-        }, 1000 / this._resolution / this._parameters.Speed.value);
-
-        this._ticks++;
         this._rover.Update(1 / this._resolution);
+        this.Draw();
     }
 
     public Draw(): void {
         const time = Date.now();
         const frameDuration = 1000 / this._parameters.FPS.value;
 
-        if (time - this._lastDraw > frameDuration) {
-            this._lastDraw = time;
+        if (time - this._lastFrame > frameDuration) {
+            this._lastFrame = time;
             this._graphics.Clear();
             this._tunnel.Draw(this._graphics);
             this._rover.Draw(this._graphics);
-
-            this._graphics.DrawText((this._ticks / frameDuration * 1000).toString(), new Vector2(0, 0));
-            this._ticks = 0;
+            this._graphics.DrawText("TPS: " + this._ticksCounter.TPS, new Vector2(450, -200));
         }
     }
 }

@@ -48,12 +48,12 @@ export class Parameters {
         );
     }
 
-    public get Speed(): Ref<number> {
-        return this._speed_parameter.Value;
-    }
-
     public get FPS(): Ref<number> {
         return this._fps_parameter.Value;
+    }
+
+    public get Speed(): Ref<number> {
+        return this._speed_parameter.Value;
     }
 
     public get Velocity(): Ref<number> {

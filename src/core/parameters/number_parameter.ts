@@ -1,5 +1,6 @@
 import {Parameter} from "./parameter";
 import {Ref, watch} from "../ref";
+import {capitalize} from "../helpers";
 
 export interface NumberParameterOptions {
     Min: number,
@@ -7,8 +8,6 @@ export interface NumberParameterOptions {
     Step: number,
     Default: number,
 }
-
-const capitalize = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
 
 export class NumberParameter implements Parameter<number> {
     private readonly _value: Ref<number>;
