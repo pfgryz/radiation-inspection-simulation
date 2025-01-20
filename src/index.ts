@@ -9,7 +9,19 @@ function start() {
     const graphics = new Graphics(canvas);
     const parameters = new Parameters(parametersContainer);
     const simulation = new Simulation(graphics, parameters);
-    simulation.Start();
+
+    parameters.OnStart.value = () => {
+        simulation.Start();
+    }
+    parameters.OnStop.value = () => {
+        simulation.Stop();
+    }
+    parameters.OnStep.value = () => {
+        simulation.Step();
+    }
+    parameters.OnReset.value = () => {
+        simulation.Reset();
+    }
 }
 
 (() => {

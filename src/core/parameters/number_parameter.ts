@@ -13,13 +13,17 @@ export class NumberParameter implements Parameter<number> {
     private readonly _value: Ref<number>;
     private readonly _input: HTMLInputElement;
     private readonly _display: HTMLElement;
+    private _format: (x: string) => string;
 
-    constructor(container: HTMLElement, {Min = 0, Max = 1, Step = 0.1, Default = 0}: NumberParameterOptions, title: string | null = null) {
+    constructor(container: HTMLElement, {Min = 0, Max = 1, Step = 0.1, Default = 0}: NumberParameterOptions, title: string | null = null, format?: (x: string) => string) {
         const id = container.getAttribute("data-parameter-name")!;
 
         const label = document.createElement("label");
         label.htmlFor = id;
         label.innerText = title || `${capitalize(id)}:`;
+
+        const defaultFormat = (x: string) => x;
+        this._format = format || defaultFormat;
 
         this._input = document.createElement("input");
         this._input.id = id;
@@ -44,7 +48,7 @@ export class NumberParameter implements Parameter<number> {
         };
 
         watch(() => {
-            this._display.innerHTML = this._value.value.toString();
+            this._display.innerHTML = this._format(this._value.value.toString());
         });
     }
 

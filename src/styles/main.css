@@ -58,8 +58,9 @@ body {
 .parameter {
     display: flex;
     align-items: center;
-    padding: 8px;
+    padding: 12px;
     float: left;
+    border-right: 1px solid #444;
 }
 .parameter label {
     margin-right: 10px;
@@ -87,10 +88,40 @@ body {
 }
 
 .box-title {
+    clear: both;
+    display: block;
     height: 1em;
     margin-bottom: 1em;
     color: var(--gold-medium);
     font-weight: bold;
     text-transform: uppercase;
     text-decoration: underline;
+}
+
+button {
+    cursor: pointer;
+    padding: 8px 12px;
+    margin: 0;
+    border: 0;
+    font: inherit;
+    font-weight: bold;
+    background: #444;
+    filter: brightness(1.0);
+}
+button:hover {
+    transition: all 250ms ease;
+    filter: brightness(0.8);
+}
+
+button.green {
+    background: var(--green);
+}
+button.blue {
+    background: var(--blue);
+}
+button.yellow {
+    background: var(--orange);
+}
+button.red {
+    background: var(--red);
 }

@@ -39,6 +39,7 @@ export class Simulation {
         this._graphics.Resize();
         this._graphics.Scale(1000, 200);
         this._graphics.Center()
+        this._graphics.DrawText("Press [START]", new Vector2(0, 0));
     }
 
     public Start(): void {
@@ -51,6 +52,17 @@ export class Simulation {
     public Stop(): void {
         this._alive = false;
         this._ticksCounter.Stop();
+    }
+
+    public Step(): void {
+        this.Update();
+    }
+
+    public Reset(): void {
+        this.Stop();
+
+        this._rover.Reset();
+        this.Draw(true);
     }
 
     public Loop(): void {
@@ -82,11 +94,11 @@ export class Simulation {
         this.Draw();
     }
 
-    public Draw(): void {
+    public Draw(force?: boolean): void {
         const time = Date.now();
         const frameDuration = 1000 / this._parameters.FPS.value;
 
-        if (time - this._lastFrame > frameDuration) {
+        if (time - this._lastFrame > frameDuration || force) {
             this._lastFrame = time;
             this._graphics.Clear();
             this._tunnel.Draw(this._graphics);

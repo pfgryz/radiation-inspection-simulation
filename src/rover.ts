@@ -42,6 +42,12 @@ export class Rover implements IUpdate, IDrawable, IPosition {
         this._angle = angle;
     }
 
+    public Reset(): void {
+        this._roadPosition.value = 0;
+        this._direction.value = false;
+        this._position.value = this._road.GetPosition(this._roadPosition.value);
+    }
+
     public Direction(): number {
         return this._direction.value ? -1 : 1;
     }
