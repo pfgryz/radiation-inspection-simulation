@@ -77,6 +77,10 @@ export class Graphics {
         this._context.closePath();
     }
 
+    public DrawText(text: string, position: Vector2): void {
+        this._context.strokeText(text, position.x, position.y);
+    }
+
     // endregion
 
     // region Filling

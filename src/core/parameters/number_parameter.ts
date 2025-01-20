@@ -8,16 +8,19 @@ export interface NumberParameterOptions {
     Default: number,
 }
 
+const capitalize = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
+
 export class NumberParameter implements Parameter<number> {
     private readonly _value: Ref<number>;
     private readonly _input: HTMLInputElement;
     private readonly _display: HTMLElement;
 
-    constructor(container: HTMLElement, {Min = 0, Max = 1, Step = 0.1, Default = 0}: NumberParameterOptions) {
+    constructor(container: HTMLElement, {Min = 0, Max = 1, Step = 0.1, Default = 0}: NumberParameterOptions, title: string | null = null) {
         const id = container.getAttribute("data-parameter-name")!;
 
         const label = document.createElement("label");
         label.htmlFor = id;
+        label.innerText = title || `${capitalize(id)}:`;
 
         this._input = document.createElement("input");
         this._input.id = id;
