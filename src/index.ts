@@ -8,7 +8,7 @@ function start() {
 
     const graphics = new Graphics(canvas);
     const parameters = new Parameters(parametersContainer);
-    const simulation = new Simulation(graphics, parameters, 100);
+    const simulation = new Simulation(graphics, parameters);
     simulation.Start();
 }
 

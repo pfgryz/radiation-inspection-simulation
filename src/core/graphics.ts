@@ -32,7 +32,6 @@ export class Graphics {
 
     // region Clear
     public Clear(): void {
-        console.log(this._canvas.width);
         this._context.clearRect(-this._canvas.width / 2, -this._canvas.height / 2, this._canvas.width, this._canvas.height);
     }
 

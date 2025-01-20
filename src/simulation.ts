@@ -10,7 +10,6 @@ const TimeoutMinimalDuration: number = 4;
 export class Simulation {
     private readonly _graphics: Graphics;
     private _parameters: Parameters;
-    private readonly _resolution: number;
 
     private _rover: Rover;
     private _tunnel: Tunnel;
@@ -22,13 +21,12 @@ export class Simulation {
     private _lastFrame: number;
     private _ticksCounter: TicksCounter;
 
-    constructor(graphics: Graphics, parameters: Parameters, resolution: number) {
+    constructor(graphics: Graphics, parameters: Parameters) {
         this._graphics = graphics;
         this._parameters = parameters;
-        this._resolution = resolution;
 
         this._tunnel = new Tunnel();
-        this._rover = new Rover(this._tunnel.Road[0], parameters.Velocity, parameters.Angle);
+        this._rover = new Rover(this._tunnel.Road.Begin, this._tunnel.Road, parameters.Velocity, parameters.Angle);
 
         this._interval = null;
         this._alive = false;
@@ -59,7 +57,7 @@ export class Simulation {
         const time = performance.now();
         const tickDuration = time - this._lastTick;
 
-        this._nextTicks += (this._resolution * this._parameters.Speed.value * tickDuration) / 1000;
+        this._nextTicks += (this._parameters.TPS.value * this._parameters.Speed.value * tickDuration) / 1000;
 
         while (this._nextTicks > 0) {
             this.Update();
@@ -80,7 +78,7 @@ export class Simulation {
     }
 
     public Update(): void {
-        this._rover.Update(1 / this._resolution);
+        this._rover.Update(1 / this._parameters.TPS.value);
         this.Draw();
     }
 

@@ -3,6 +3,7 @@ import {NumberParameter} from "./core/parameters/number_parameter";
 
 export class Parameters {
     private _fps_parameter: NumberParameter;
+    private _tps_parameter: NumberParameter;
     private _speed_parameter: NumberParameter;
     private _velocity_parameter: NumberParameter;
     private _angle_parameter: NumberParameter;
@@ -14,9 +15,19 @@ export class Parameters {
                 Min: 1,
                 Max: 60,
                 Step: 1,
-                Default: 10
+                Default: 60
             },
             "FPS"
+        );
+        this._tps_parameter = new NumberParameter(
+            container.querySelectorAll('[data-parameter-name="tps"]')[0] as HTMLElement,
+            {
+                Min: 1,
+                Max: 1000,
+                Step: 1,
+                Default: 100
+            },
+            "TPS"
         );
         this._speed_parameter = new NumberParameter(
             container.querySelectorAll('[data-parameter-name="speed"]')[0] as HTMLElement,
@@ -50,6 +61,10 @@ export class Parameters {
 
     public get FPS(): Ref<number> {
         return this._fps_parameter.Value;
+    }
+
+    public get TPS(): Ref<number> {
+        return this._tps_parameter.Value;
     }
 
     public get Speed(): Ref<number> {
