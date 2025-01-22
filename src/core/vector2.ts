@@ -41,8 +41,22 @@ export class Vector2 {
         return new Vector2(this.x + other.x, this.y + other.y);
     }
 
-    Subtract(other: Vector2) {
+    Subtract(other: Vector2): Vector2 {
         return new Vector2(this.x - other.x, this.y - other.y);
+    }
+
+    Mul(other: Vector2): Vector2 {
+        return new Vector2(
+            this.x * other.x,
+            this.y * other.y
+        );
+    }
+
+    Div(other: Vector2): Vector2 {
+        return new Vector2(
+            this.x / other.x,
+            this.y / other.y
+        );
     }
 
     Scale(scale: number) {
@@ -60,5 +74,18 @@ export class Vector2 {
         );
 
         return rotated.Add(reference);
+    }
+
+    Clone(): Vector2 {
+        return new Vector2(
+            this.x, this.y
+        );
+    }
+
+    Int(method: (x: number) => number = Math.round): Vector2 {
+        return new Vector2(
+            method(this.x),
+            method(this.y)
+        )
     }
 }
