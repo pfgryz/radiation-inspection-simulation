@@ -5,6 +5,7 @@ import {Tunnel} from "./tunnel";
 import {Vector2} from "./core/vector2";
 import {TicksCounter} from "./ticksCounter";
 import {Heatmap} from "./ui/heatmap";
+import {Radiation} from "./radiation";
 
 const TimeoutMinimalDuration: number = 4;
 
@@ -14,7 +15,7 @@ export class Simulation {
 
     private _rover: Rover;
     private _tunnel: Tunnel;
-    private _heatmap: Heatmap;
+    private _radiation: Radiation;
 
     private _alive: boolean;
     private _interval: number | null;
@@ -29,7 +30,7 @@ export class Simulation {
 
         this._tunnel = new Tunnel();
         this._rover = new Rover(this._tunnel.Road.Begin, this._tunnel.Road, parameters.Velocity, parameters.Angle);
-        this._heatmap = new Heatmap(new Vector2(-500, -100), new Vector2(500, 100), new Vector2(100, 20));
+        this._radiation = new Radiation(this._parameters, this._tunnel.Accelerator);
 
         this._interval = null;
         this._alive = false;
@@ -106,7 +107,7 @@ export class Simulation {
             this._graphics.Clear();
             this._tunnel.Draw(this._graphics);
             this._rover.Draw(this._graphics);
-            this._heatmap.Draw(this._graphics);
+            this._radiation.Draw(this._graphics);
             this._heatmap.Set(this._rover.Position(), 1);
             this._graphics.DrawText("TPS: " + this._ticksCounter.TPS, new Vector2(450, -200));
         }

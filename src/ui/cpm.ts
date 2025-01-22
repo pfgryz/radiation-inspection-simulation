@@ -14,7 +14,7 @@ function updateChart(chart: UIChart) {
 
 export function initChart() {
     let chart = new UIChart(
-        document.getElementById("myChart")! as HTMLCanvasElement,
+        document.getElementById("cpm-chart")! as HTMLCanvasElement,
         {
             label: "CPM",
             xTitle: "Time",

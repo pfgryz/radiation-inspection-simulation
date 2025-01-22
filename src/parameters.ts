@@ -7,11 +7,16 @@ export class Parameters {
     private _speed_parameter: NumberParameter;
     private _velocity_parameter: NumberParameter;
     private _angle_parameter: NumberParameter;
+    private _first_source_parameter: NumberParameter;
+    private _first_source_intensity_parameter: NumberParameter;
+    private _second_source_parameter: NumberParameter;
+    private _second_source_intensity_parameter: NumberParameter;
 
     public OnStart: Ref<() => void> = new Ref(() => {});
     public OnStop: Ref<() => void> = new Ref(() => {});
     public OnStep: Ref<() => void> = new Ref(() => {});
     public OnReset: Ref<() => void> = new Ref(() => {})
+
 
     constructor(container: HTMLElement) {
         document.getElementById("sim-start")!.onclick = () => {
@@ -80,6 +85,50 @@ export class Parameters {
             null,
             (s) => `${s}°`
         );
+        this._first_source_parameter = new NumberParameter(
+            container.querySelectorAll('[data-parameter-name="first-source"]')[0] as HTMLElement,
+            {
+                Min: 0,
+                Max: 1,
+                Step: 0.01,
+                Default: 0.3
+            },
+            null,
+            (s) => `${s}`
+        );
+        this._first_source_intensity_parameter = new NumberParameter(
+            container.querySelectorAll('[data-parameter-name="first-source-intensity"]')[0] as HTMLElement,
+            {
+                Min: 0,
+                Max: 10000,
+                Step: 1,
+                Default: 0
+            },
+            null,
+            (s) => `${s}`
+        );
+        this._second_source_parameter = new NumberParameter(
+            container.querySelectorAll('[data-parameter-name="second-source"]')[0] as HTMLElement,
+            {
+                Min: 0,
+                Max: 1,
+                Step: 0.01,
+                Default: 0.7
+            },
+            null,
+            (s) => `${s}`
+        );
+        this._second_source_intensity_parameter = new NumberParameter(
+            container.querySelectorAll('[data-parameter-name="second-source-intensity"]')[0] as HTMLElement,
+            {
+                Min: 0,
+                Max: 10000,
+                Step: 1,
+                Default: 0
+            },
+            null,
+            (s) => `${s}`
+        );
     }
 
     public get FPS(): Ref<number> {
@@ -100,5 +149,21 @@ export class Parameters {
 
     public get Angle(): Ref<number> {
         return this._angle_parameter.Value;
+    }
+
+    public get FirstSource(): Ref<number> {
+        return this._first_source_parameter.Value;
+    }
+
+    public get FirstSourceIntensity(): Ref<number> {
+        return this._first_source_intensity_parameter.Value;
+    }
+
+    public get SecondSource(): Ref<number> {
+        return this._second_source_parameter.Value;
+    }
+
+    public get SecondSourceIntensity(): Ref<number> {
+        return this._second_source_intensity_parameter.Value;
     }
 }

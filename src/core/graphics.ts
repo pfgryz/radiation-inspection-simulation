@@ -59,6 +59,12 @@ export class Graphics {
         this._context.closePath();
     }
 
+    DrawCircle(position: Vector2, radius: number) {
+        this._context.beginPath();
+        this._context.arc(position.x, position.y, radius, 0, 2 * Math.PI);
+        this._context.closePath();
+    }
+
     public DrawShape(position: Vector2, shape: Shape): void {
         if (shape.vertices.length == 0) {
             return;
