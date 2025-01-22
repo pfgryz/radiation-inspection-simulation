@@ -1,5 +1,5 @@
 import {Parameters} from "./parameters";
-import {Source} from "./source";
+import {ResponseCallback, Source} from "./source";
 import {Road} from "./road";
 import {IDrawable} from "./core/interfaces";
 import { Graphics } from "./core/graphics";
@@ -18,13 +18,17 @@ export class Radiation implements IDrawable {
 
     }
 
+    public RadiationAt(point: Vector2, response: ResponseCallback | null = null, other: Vector2 | null = null): number {
+        return this._first.Radiation(point, response, other) + this._second.Radiation(point, response, other);
+    }
+
     Draw(graphics: Graphics): void {
         this._first.Draw(graphics);
         this._second.Draw(graphics);
 
-        // update heatmap
-        // draw heatmap
-
-        // this._heatmap.Draw(graphics);
+        this._heatmap.Update((p) => {
+            return this.RadiationAt(p);
+        });
+        this._heatmap.Draw(graphics);
     }
 }

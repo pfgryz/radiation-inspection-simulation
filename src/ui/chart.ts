@@ -51,7 +51,6 @@ export class UIChart {
                     }]
                 },
                 options: {
-                    responsive: true,
                     scales: {
                         x: {
                             title: {
@@ -96,5 +95,16 @@ export class UIChart {
 
     public get Data(): unknown[] {
         return this._chart.data.datasets[0].data!;
+    }
+
+    Reset() {
+        while (this.Labels.length > 0) {
+            this.Labels.pop();
+        }
+        while (this.Data.length > 0) {
+            this.Data.pop();
+        }
+
+        this.Update();
     }
 }

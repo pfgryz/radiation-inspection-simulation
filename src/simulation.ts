@@ -4,8 +4,8 @@ import {Rover} from "./rover";
 import {Tunnel} from "./tunnel";
 import {Vector2} from "./core/vector2";
 import {TicksCounter} from "./ticksCounter";
-import {Heatmap} from "./ui/heatmap";
 import {Radiation} from "./radiation";
+import {Dosimeter} from "./dosimeter";
 
 const TimeoutMinimalDuration: number = 4;
 
@@ -16,6 +16,7 @@ export class Simulation {
     private _rover: Rover;
     private _tunnel: Tunnel;
     private _radiation: Radiation;
+    private _dosimeter: Dosimeter;
 
     private _alive: boolean;
     private _interval: number | null;
@@ -29,8 +30,10 @@ export class Simulation {
         this._parameters = parameters;
 
         this._tunnel = new Tunnel();
-        this._rover = new Rover(this._tunnel.Road.Begin, this._tunnel.Road, parameters.Velocity, parameters.Angle);
+        this._rover = new Rover(this._parameters.Mode, this._parameters.SecondModeDistance, this._tunnel.Road.Begin, this._tunnel.Road, parameters.Velocity, parameters.Angle);
         this._radiation = new Radiation(this._parameters, this._tunnel.Accelerator);
+        this._dosimeter = new Dosimeter(this._rover, this._radiation);
+        this._rover.SetDosimeter(this._dosimeter);
 
         this._interval = null;
         this._alive = false;
@@ -66,6 +69,7 @@ export class Simulation {
         this.Stop();
 
         this._rover.Reset();
+        this._dosimeter.Reset();
         this.Draw(true);
     }
 
@@ -94,7 +98,9 @@ export class Simulation {
     }
 
     public Update(): void {
-        this._rover.Update(1 / this._parameters.TPS.value);
+        const time_delta = 1 / this._parameters.TPS.value;
+        this._rover.Update(time_delta);
+        this._dosimeter.Update(time_delta);
         this.Draw();
     }
 
@@ -108,7 +114,6 @@ export class Simulation {
             this._tunnel.Draw(this._graphics);
             this._rover.Draw(this._graphics);
             this._radiation.Draw(this._graphics);
-            this._heatmap.Set(this._rover.Position(), 1);
             this._graphics.DrawText("TPS: " + this._ticksCounter.TPS, new Vector2(450, -200));
         }
     }

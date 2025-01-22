@@ -11,12 +11,13 @@ export class Parameters {
     private _first_source_intensity_parameter: NumberParameter;
     private _second_source_parameter: NumberParameter;
     private _second_source_intensity_parameter: NumberParameter;
+    private _mode_parameter: NumberParameter;
+    private _second_mode_distance_parameter: NumberParameter;
 
     public OnStart: Ref<() => void> = new Ref(() => {});
     public OnStop: Ref<() => void> = new Ref(() => {});
     public OnStep: Ref<() => void> = new Ref(() => {});
     public OnReset: Ref<() => void> = new Ref(() => {})
-
 
     constructor(container: HTMLElement) {
         document.getElementById("sim-start")!.onclick = () => {
@@ -38,7 +39,7 @@ export class Parameters {
                 Min: 1,
                 Max: 60,
                 Step: 1,
-                Default: 60
+                Default: 20
             },
             "FPS"
         );
@@ -129,6 +130,28 @@ export class Parameters {
             null,
             (s) => `${s}`
         );
+        this._mode_parameter = new NumberParameter(
+            container.querySelectorAll('[data-parameter-name="mode"]')[0] as HTMLElement,
+            {
+                Min: 0,
+                Max: 1,
+                Step: 1,
+                Default: 0
+            },
+            null,
+            (s) => (s == 0 ? "Standard" : "Arrows")
+        )
+        this._second_mode_distance_parameter = new NumberParameter(
+            container.querySelectorAll('[data-parameter-name="second-mode-distance"]')[0] as HTMLElement,
+            {
+                Min: 0,
+                Max: 10,
+                Step: 0.25,
+                Default: 5
+            },
+            "Arrow distance:",
+            (s) => `${s}m`
+        )
     }
 
     public get FPS(): Ref<number> {
@@ -165,5 +188,13 @@ export class Parameters {
 
     public get SecondSourceIntensity(): Ref<number> {
         return this._second_source_intensity_parameter.Value;
+    }
+
+    public get Mode(): Ref<number> {
+        return this._mode_parameter.Value;
+    }
+
+    public get SecondModeDistance(): Ref<number> {
+        return this._second_mode_distance_parameter.Value;
     }
 }
