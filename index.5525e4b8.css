@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #eee;
+  background: #222;
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: 400;
+  overflow: hidden;
+}
+
+:root {
+  --gold-light: #d9a521;
+  --gold-medium: #b38b1e;
+  --gold-dark: #806113;
+  --blue: #4b7bec;
+  --teal: #2bcbba;
+  --green: #78e08f;
+  --yellow: #fed330;
+  --orange: #fd9644;
+  --red: #fc5c65;
+}
+
+.header {
+  border-bottom: 1px solid #444;
+  width: 100%;
+  height: 70px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.main-container {
+  justify-content: space-between;
+  height: calc(100vh - 70px);
+  display: flex;
+}
+
+.left-container {
+  border-right: 1px solid #444;
+  flex-direction: column;
+  flex: 1;
+  display: flex;
+}
+
+.right-container {
+  width: 25%;
+}
+
+.parameters {
+  border-bottom: 1px solid #444;
+}
+
+.parameter {
+  float: left;
+  border-right: 1px solid #444;
+  align-items: center;
+  padding: 12px;
+  display: flex;
+}
+
+.parameter label {
+  margin-right: 10px;
+}
+
+.parameter .parameter-value {
+  margin-left: 4px;
+}
+
+.canvas-container {
+  height: 100%;
+}
+
+#simulation {
+  background: #fff;
+  width: 100%;
+  height: calc(100% - 2em);
+}
+
+.box {
+  padding: 20px;
+}
+
+.box-title {
+  clear: both;
+  height: 1em;
+  color: var(--gold-medium);
+  text-transform: uppercase;
+  margin-bottom: 1em;
+  font-weight: bold;
+  text-decoration: underline;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+  filter: brightness();
+  background: #444;
+  border: 0;
+  margin: 0;
+  padding: 8px 12px;
+  font-weight: bold;
+}
+
+button:hover {
+  filter: brightness(.8);
+  transition: all .25s;
+}
+
+button.green {
+  background: var(--green);
+}
+
+button.blue {
+  background: var(--blue);
+}
+
+button.yellow {
+  background: var(--orange);
+}
+
+button.red {
+  background: var(--red);
+}
+/*# sourceMappingURL=index.5525e4b8.css.map */
