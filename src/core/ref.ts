@@ -11,7 +11,7 @@ export class Ref<T> {
         this._subscriptions = new Set();
     }
 
-    get value(): T {
+    public get value(): T {
         if (context.length > 0) {
             this._subscriptions.add(context[context.length - 1]);
         }
@@ -19,7 +19,7 @@ export class Ref<T> {
         return this._value!;
     }
 
-    set value(value: T) {
+    public set value(value: T) {
         this._value = value;
 
         for (let subscription of this._subscriptions) {

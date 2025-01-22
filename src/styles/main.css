@@ -10,6 +10,7 @@ body {
     font-family: monospace;
     font-weight: 400;
     background: #222;
+    overflow: hidden;
 }
 
 :root {

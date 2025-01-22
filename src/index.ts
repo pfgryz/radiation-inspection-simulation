@@ -1,6 +1,7 @@
 import {Simulation} from "./simulation";
 import {Graphics} from "./core/graphics";
 import {Parameters} from "./parameters";
+import {initChart} from "./charts/cpm";
 
 function start() {
     const canvas = document.getElementById("simulation") as HTMLCanvasElement;
@@ -22,6 +23,8 @@ function start() {
     parameters.OnReset.value = () => {
         simulation.Reset();
     }
+
+    initChart();
 }
 
 (() => {
